@@ -1,6 +1,11 @@
 # Changelog
 
-**latest**
+**1.4.4 (latest)**
+- Upgrade toran proxy to version 1.4.4
+- image based on ubuntu:trusty
+- optimized docker layers
+
+**1.3.2**
 - Upgrade toran proxy to version 1.3.2
 
 **1.2.0**
