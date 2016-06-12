@@ -45,7 +45,7 @@ sed -i "s|secret:.*|secret: $TORAN_SECRET|g" $WORK_DIRECTORY/app/config/paramete
 if [ ! -d $DATA_DIRECTORY/toran ]; then
     cp -rf $WORK_DIRECTORY/app/toran $DATA_DIRECTORY/toran
     cp -f $ASSETS_DIRECTORY/config/config.yml $DATA_DIRECTORY/toran/config.yml
-    sed -i "s|git_prefix:.*|git_prefix: $TORAN_SCHEME://$TORAN_HOST/mirrors|g" $WORK_DIRECTORY/app/config/parameters.yml
+    sed -i "s|git_prefix:.*|git_prefix: git://$TORAN_HOST|g" $DATA_DIRECTORY/toran/config.yml
 fi
 rm -rf $WORK_DIRECTORY/app/toran
 ln -s $DATA_DIRECTORY/toran $WORK_DIRECTORY/app/toran

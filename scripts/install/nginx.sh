@@ -33,4 +33,4 @@ mkdir -p $DATA_DIRECTORY/logs/nginx
 
 # Loading permissions
 chown -R www-data:www-data \
-    $DATA_DIRECTORY/logs \
+    $DATA_DIRECTORY/logs/nginx

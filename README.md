@@ -20,6 +20,7 @@ Toran acts as a proxy for Packagist and GitHub. It is meant to be set up on your
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
+    -p 9418:9418 \
     bankiru/toran-proxy:1.4.4
 ```
 Go with your browser to **localhost**
@@ -30,7 +31,19 @@ Files are saved to `/data/toran-proxy` in container. Just mount this volume for 
 
 ```bash
 docker run --name toran-proxy -d \
+    -p 80:80 \
+    -p 9418:9418 \
     -v /opt/toran-proxy:/data/toran-proxy \
+    bankiru/toran-proxy:1.4.4
+```
+
+## Domain name
+
+```bash
+docker run --name toran-proxy -d \
+    -p 80:80 \
+    -p 9418:9418 \
+    -e "TORAN_HOST=toran.example.com" \
     bankiru/toran-proxy:1.4.4
 ```
 
@@ -38,7 +51,8 @@ docker run --name toran-proxy -d \
 
 ```bash
 docker run --name toran-proxy -d \
-    -p 443:443 \
+    -p 80:80 \
+    -p 9418:9418 \
     -v /opt/toran-proxy/ssh:/data/toran-proxy/ssh \
     bankiru/toran-proxy:1.4.4
 ```
@@ -48,7 +62,8 @@ docker run --name toran-proxy -d \
 
 ```bash
 docker run --name toran-proxy -d \
-    -p 443:443 \
+    -p 80:80 \
+    -p 9418:9418 \
     -e "TORAN_CRON_TIMER=half" \
     bankiru/toran-proxy:1.4.4
 ```
@@ -58,6 +73,7 @@ docker run --name toran-proxy -d \
 ```bash
 docker run --name toran-proxy -d \
     -p 443:443 \
+    -p 9418:9418 \
     -e "TORAN_HTTPS=true" \
     -v /opt/toran-proxy/certs:/data/toran-proxy/certs \
     bankiru/toran-proxy:1.4.4

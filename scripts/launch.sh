@@ -12,9 +12,11 @@ fi
 
 # Initilisation
 source $SCRIPTS_DIRECTORY/install/php-fpm.sh
+source $SCRIPTS_DIRECTORY/install/gitdaemon.sh
 source $SCRIPTS_DIRECTORY/install/nginx.sh
 source $SCRIPTS_DIRECTORY/install/ssh.sh
 source $SCRIPTS_DIRECTORY/install/toran.sh
+source $SCRIPTS_DIRECTORY/install/cron.sh
 
 # Start services
 echo "Starting Toran Proxy..."

@@ -16,6 +16,8 @@ fi
 sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php5/fpm/php.ini
 sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php5/cli/php.ini
 
+mkdir -p /run/php
+
 # Logs
 mkdir -p $DATA_DIRECTORY/logs/php-fpm
 mkdir -p $DATA_DIRECTORY/logs/php-cli
@@ -24,4 +26,6 @@ sed -i "s|;error_log = php_errors.log|error_log = ${DATA_DIRECTORY}/logs/php-cli
 
 # Loading permissions
 chown -R www-data:www-data \
-    $DATA_DIRECTORY/logs \
+    /run/php \
+    $DATA_DIRECTORY/logs/php-fpm \
+    $DATA_DIRECTORY/logs/php-cli

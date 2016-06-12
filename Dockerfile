@@ -8,18 +8,22 @@ ENV TORAN_PROXY_VERSION 1.4.4
 RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get update \
  && apt-get install -y \
-    apt-transport-https \
     ca-certificates \
+    software-properties-common \
+ && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php \
+ && apt-get update \
+ && apt-get install -y \
     curl \
     daemontools \
     git \
     net-tools \
     nginx \
-    php5-cli \
-    php5-curl \
-    php5-fpm \
-    php5-intl \
-    php5-json \
+    php-cli \
+    php-curl \
+    php-fpm \
+    php-intl \
+    php-json \
+    php-xml \
     ssh \
     supervisor \
     unzip \
@@ -29,7 +33,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
   && rm -rf /var/lib/apt/lists/*
 
 COPY scripts /scripts/toran-proxy/
-COPY assets/supervisor/conf.d /etc/supervisor/conf.d
+COPY assets/supervisor/conf.d /etc/supervisor/conf.d/
 COPY assets/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY assets/vhosts /etc/nginx/sites-available
 COPY assets/config /assets/config
@@ -43,6 +47,6 @@ ENV PATH $PATH:/scripts/toran-proxy
 
 VOLUME /data/toran-proxy
 
-EXPOSE 80 443
+EXPOSE 80 443 9418
 
 CMD /scripts/toran-proxy/launch.sh
