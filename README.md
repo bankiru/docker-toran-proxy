@@ -15,6 +15,8 @@ Toran acts as a proxy for Packagist and GitHub. It is meant to be set up on your
 - **Redundant infrastructure to ensure your deployments never fail and your developers can work at any time.** Packages will be installed from your proxy with a fallback to GitHub, ensuring a maximum availability.
 - **Higher bandwidth for faster installations.** You can set up Toran in your local network or on a server near you.
 
+This is forked, rewritten and optimized version of [cedvan/docker-toran-proxy](https://github.com/cedvan/docker-toran-proxy).
+
 ## Quick start
 
 ```bash
@@ -153,3 +155,4 @@ Toran is built by Jordi Boggiano, lead developer of Composer. As such he can mak
 - https://twitter.com/toranproxy
 - https://getcomposer.org/doc/articles/handling-private-packages-with-satis.md
 - https://github.com/jwilder/nginx-proxy
+- https://github.com/cedvan/docker-toran-proxy
