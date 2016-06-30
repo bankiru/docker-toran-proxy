@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 MAINTAINER Boris Gorbylev <ekho@ekho.name>
 
 # Version Toran Proxy
-ENV TORAN_PROXY_VERSION 1.4.4
+ENV TORAN_PROXY_VERSION 1.5.1
 
 # Install software
 RUN export DEBIAN_FRONTEND=noninteractive \
