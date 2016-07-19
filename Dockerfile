@@ -15,7 +15,9 @@ RUN export DEBIAN_FRONTEND=noninteractive \
  && apt-get install -y \
     curl \
     daemontools \
+    fcgiwrap \
     git \
+    gitweb \
     net-tools \
     nginx \
     php-cli \
@@ -28,6 +30,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     supervisor \
     unzip \
     wget \
+  && apt-get purge -y apache2* \
   && apt-get autoremove -y \
   && apt-get autoclean all \
   && rm -rf /var/lib/apt/lists/*

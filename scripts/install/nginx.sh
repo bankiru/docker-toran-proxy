@@ -2,35 +2,50 @@
 
 # Vhosts
 echo "Loading Nginx vhosts..."
+
 rm -f /etc/nginx/sites-enabled/*
-if [ "${TORAN_HTTPS}" == "true" ]; then
 
-    echo "Loading HTTPS Certificates..."
+if [ ! -e "${DATA_DIRECTORY}/certs/toran-proxy.key" ] && [ ! -e "${DATA_DIRECTORY}/certs/toran-proxy.crt" ]; then
 
-    if [ ! -e "$DATA_DIRECTORY/certs/toran-proxy.key" ]; then
-        echo "ERROR: "
-        echo "  Please add toran-proxy.key in folder certs/"
-        exit 1
-    fi
+    echo "Generating self-signed HTTPS Certificates..."
+    openssl req \
+        -x509 \
+        -nodes \
+        -days 365 \
+        -newkey rsa:2048 \
+        -keyout "${DATA_DIRECTORY}/certs/toran-proxy.key" \
+        -out "${DATA_DIRECTORY}/certs/toran-proxy.crt" \
+        -subj "/C=SS/ST=SS/L=SelfSignedCity/O=SelfSignedOrg/CN=gitweb.local"
 
-    if [ ! -e "$DATA_DIRECTORY/certs/toran-proxy.crt" ]; then
-        echo "ERROR: "
-        echo "  Please add toran-proxy.crt in folder certs/"
-        exit 1
-    fi
+elif [ -e "${DATA_DIRECTORY}/certs/toran-proxy.key" ] && [ -e "${DATA_DIRECTORY}/certs/toran-proxy.crt" ]; then
 
-    # Add certificates trusted
-    ln -s $DATA_DIRECTORY/certs /usr/local/share/ca-certificates/toran-proxy
-    update-ca-certificates
+    echo "Using provided HTTPS Certificates..."
 
-    ln -s /etc/nginx/sites-available/toran-proxy-https.conf /etc/nginx/sites-enabled/toran-proxy-https.conf
 else
-    ln -s /etc/nginx/sites-available/toran-proxy-http.conf /etc/nginx/sites-enabled/toran-proxy-http.conf
+
+    if [ ! -e "${DATA_DIRECTORY}/certs/toran-proxy.key" ]; then
+        echo "ERROR: " >&2
+        echo "  File toran-proxy.key exists in folder certs/ but no toran-proxy.crt" >&2
+        exit 1
+    else
+        echo "ERROR: " >&2
+        echo "  File toran-proxy.crt exists in folder certs/ but no toran-proxy.key" >&2
+        exit 1
+    fi
+
 fi
 
+echo "Loading HTTPS Certificates..."
+
+# Add certificates trusted
+ln -s ${DATA_DIRECTORY}/certs /usr/local/share/ca-certificates/toran-proxy
+update-ca-certificates
+
+ln -s /etc/nginx/sites-available/toran-proxy.conf /etc/nginx/sites-enabled/toran-proxy.conf
+
 # Logs
-mkdir -p $DATA_DIRECTORY/logs/nginx
+mkdir -p ${DATA_DIRECTORY}/logs/nginx
 
 # Loading permissions
 chown -R www-data:www-data \
-    $DATA_DIRECTORY/logs/nginx
+    ${DATA_DIRECTORY}/logs/nginx
