@@ -29,13 +29,13 @@ Go with your browser to **localhost**
 
 ## Save data
 
-Files are saved to `/data/toran-proxy` in container. Just mount this volume for save your configurations and repositories
+Files are saved to `/data` in container. Just mount this volume for save your configurations and repositories
 
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
     -p 9418:9418 \
-    -v /opt/toran-proxy:/data/toran-proxy \
+    -v /opt/toran-proxy:/data \
     bankiru/toran-proxy:latest
 ```
 
@@ -55,7 +55,7 @@ docker run --name toran-proxy -d \
 docker run --name toran-proxy -d \
     -p 80:80 \
     -p 9418:9418 \
-    -v /opt/toran-proxy/ssh:/data/toran-proxy/ssh \
+    -v /opt/toran-proxy/ssh:/data/ssh \
     bankiru/toran-proxy:latest
 ```
 *Files supported : `id_rsa`, `id_rsa.pub`, `config` and `known_hosts`*
@@ -77,7 +77,7 @@ docker run --name toran-proxy -d \
     -p 443:443 \
     -p 9418:9418 \
     -e "TORAN_HTTPS=true" \
-    -v /opt/toran-proxy/certs:/data/toran-proxy/certs \
+    -v /opt/toran-proxy/certs:/data/certs \
     bankiru/toran-proxy:latest
 ```
 Add **toran-proxy.key** and **toran-proxy.crt** in folder **certs**

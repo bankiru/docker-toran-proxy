@@ -17,7 +17,6 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     daemontools \
     fcgiwrap \
     git \
-    gitweb \
     net-tools \
     nginx \
     php-cli \
@@ -30,26 +29,28 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     supervisor \
     unzip \
     wget \
-  && apt-get purge -y apache2* \
+  && apt-get download gitweb \
+  && dpkg --force-all -i gitweb* \
   && apt-get autoremove -y \
   && apt-get autoclean all \
   && rm -rf /var/lib/apt/lists/*
 
-COPY scripts /scripts/toran-proxy/
+COPY scripts /toran-proxy/
 COPY assets/supervisor/conf.d /etc/supervisor/conf.d/
 COPY assets/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 COPY assets/vhosts /etc/nginx/sites-available
+COPY assets/gitweb/gitweb.conf /etc/gitweb.conf
 COPY assets/config /assets/config
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf \
  && curl -sL https://toranproxy.com/releases/toran-proxy-v${TORAN_PROXY_VERSION}.tgz | tar xzC /tmp \
  && mv /tmp/toran /var/www \
- && chmod -R u+x /scripts/toran-proxy
+ && chmod -R u+x /toran-proxy
 
-ENV PATH $PATH:/scripts/toran-proxy
+ENV PATH $PATH:/toran-proxy
 
-VOLUME /data/toran-proxy
+VOLUME /data
 
-EXPOSE 80 443 9418
+EXPOSE 80 443
 
-CMD /scripts/toran-proxy/launch.sh
+CMD /toran-proxy/launch.sh

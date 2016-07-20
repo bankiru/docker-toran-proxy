@@ -1,9 +1,9 @@
 #!/bin/bash
 
-DATA_DIRECTORY=/data/toran-proxy
+DATA_DIRECTORY=/data
 WORK_DIRECTORY=/var/www
 ASSETS_DIRECTORY=/assets
-SCRIPTS_DIRECTORY=/scripts/toran-proxy
+SCRIPTS_DIRECTORY=/toran-proxy
 
 # Create logs directory
 if [ -d ${DATA_DIRECTORY}/logs ]; then

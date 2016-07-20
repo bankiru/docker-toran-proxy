@@ -4,22 +4,10 @@ echo "Configure Toran Proxy..."
 
 # Toran Proxy Configuration
 TORAN_HOST=${TORAN_HOST:-localhost}
-TORAN_HTTPS=${TORAN_HTTPS:-false}
 TORAN_CRON_TIMER=${TORAN_CRON_TIMER:-fifteen}
 TORAN_CRON_TIMER_DAILY_TIME=${TORAN_CRON_TIMER_DAILY_TIME:-04:00}
 TORAN_TOKEN_GITHUB=${TORAN_TOKEN_GITHUB:-false}
 TORAN_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-
-# Checking Toran Proxy Configuration
-if [ "${TORAN_HTTPS}" = "true" ]; then
-    TORAN_SCHEME="https"
-elif [ "${TORAN_HTTPS}" = "false" ]; then
-    TORAN_SCHEME="http"
-else
-    echo "ERROR: "
-    echo "  Variable TORAN_HTTPS isn't valid ! (Values accepted : true/false)"
-    exit 1
-fi
 
 # Checking Cron time
 if [ "${TORAN_CRON_TIMER}" != "minutes" ] && [ "${TORAN_CRON_TIMER}" != "five" ] && [ "${TORAN_CRON_TIMER}" != "fifteen" ] && [ "${TORAN_CRON_TIMER}" != "half" ] && [ "${TORAN_CRON_TIMER}" != "hour" ] && [ "${TORAN_CRON_TIMER}" != "daily" ]; then
@@ -36,29 +24,29 @@ if [[ ! "${TORAN_CRON_TIMER_DAILY_TIME}" =~ ^[0-9]{2}:[0-9]{2}$ ]]; then
 fi
 
 # Load parameters toran
-cp -f $WORK_DIRECTORY/app/config/parameters.yml.dist $WORK_DIRECTORY/app/config/parameters.yml
-sed -i "s|toran_scheme:.*|toran_scheme: $TORAN_SCHEME|g" $WORK_DIRECTORY/app/config/parameters.yml
-sed -i "s|toran_host:.*|toran_host: $TORAN_HOST|g" $WORK_DIRECTORY/app/config/parameters.yml
-sed -i "s|secret:.*|secret: $TORAN_SECRET|g" $WORK_DIRECTORY/app/config/parameters.yml
+cp -f ${WORK_DIRECTORY}/app/config/parameters.yml.dist ${WORK_DIRECTORY}/app/config/parameters.yml
+sed -i "s|toran_scheme:.*|toran_scheme: https|g" ${WORK_DIRECTORY}/app/config/parameters.yml
+sed -i "s|toran_host:.*|toran_host: ${TORAN_HOST}|g" ${WORK_DIRECTORY}/app/config/parameters.yml
+sed -i "s|secret:.*|secret: ${TORAN_SECRET}|g" ${WORK_DIRECTORY}/app/config/parameters.yml
 
 # Load toran data
-if [ ! -d $DATA_DIRECTORY/toran ]; then
-    cp -rf $WORK_DIRECTORY/app/toran $DATA_DIRECTORY/toran
-    cp -f $ASSETS_DIRECTORY/config/config.yml $DATA_DIRECTORY/toran/config.yml
-    sed -i "s|git_prefix:.*|git_prefix: git://$TORAN_HOST|g" $DATA_DIRECTORY/toran/config.yml
+if [ ! -d ${DATA_DIRECTORY}/toran ]; then
+    cp -rf ${WORK_DIRECTORY}/app/toran ${DATA_DIRECTORY}/toran
+    cp -f ${ASSETS_DIRECTORY}/config/config.yml ${DATA_DIRECTORY}/toran/config.yml
+    sed -i "s|git_prefix:.*|git_prefix: /mirrors|g" ${DATA_DIRECTORY}/toran/config.yml
 fi
-rm -rf $WORK_DIRECTORY/app/toran
-ln -s $DATA_DIRECTORY/toran $WORK_DIRECTORY/app/toran
+rm -rf ${WORK_DIRECTORY}/app/toran
+ln -s ${DATA_DIRECTORY}/toran ${WORK_DIRECTORY}/app/toran
 
 # Load config composer
-mkdir -p $DATA_DIRECTORY/toran/composer
-if [ -e $DATA_DIRECTORY/toran/composer/auth.json ]; then
-    rm -rf $DATA_DIRECTORY/toran/composer/auth.json
+mkdir -p ${DATA_DIRECTORY}/toran/composer
+if [ -e ${DATA_DIRECTORY}/toran/composer/auth.json ]; then
+    rm -rf ${DATA_DIRECTORY}/toran/composer/auth.json
 fi
 if [ "${TORAN_TOKEN_GITHUB}" != "false" ]; then
     echo "Installing Token Github..."
-    cp -f $ASSETS_DIRECTORY/config/composer.json $DATA_DIRECTORY/toran/composer/auth.json
-    sed -i "s|\"github.com\":|\"github.com\":\"$TORAN_TOKEN_GITHUB\"|g" $DATA_DIRECTORY/toran/composer/auth.json
+    cp -f ${ASSETS_DIRECTORY}/config/composer-auth.json ${DATA_DIRECTORY}/toran/composer/auth.json
+    sed -i "s|\"github.com\": \"\"|\"github.com\":\"${TORAN_TOKEN_GITHUB}\"|g" ${DATA_DIRECTORY}/toran/composer/auth.json
 else
     echo "WARNING: "
     echo "  Variable TORAN_TOKEN_GITHUB is empty !"
@@ -67,14 +55,14 @@ else
 fi
 
 # Create directory mirrors
-if [ ! -d $DATA_DIRECTORY/mirrors ]; then
+if [ ! -d ${DATA_DIRECTORY}/mirrors ]; then
     echo "Creating mirrors directories..."
-    mkdir -p $DATA_DIRECTORY/mirrors
+    mkdir -p ${DATA_DIRECTORY}/mirrors
 fi
-if [ -d $WORK_DIRECTORY/web/mirrors ]; then
-    rm -rf $WORK_DIRECTORY/web/mirrors
+if [ -d ${WORK_DIRECTORY}/web/mirrors ]; then
+    rm -rf ${WORK_DIRECTORY}/web/mirrors
 fi
-ln -s $DATA_DIRECTORY/mirrors $WORK_DIRECTORY/web/mirrors
+ln -s ${DATA_DIRECTORY}/mirrors ${WORK_DIRECTORY}/web/mirrors
 
 # Installing Cron
 echo "Installing Cron..."
@@ -100,8 +88,8 @@ echo "" >> /etc/cron.d/toran-proxy
 
 # Loading permissions
 echo "Loading permissions..."
-chmod -R 777 $WORK_DIRECTORY/app/cache
+chmod -R 777 ${WORK_DIRECTORY}/app/cache
 chown -R www-data:www-data \
-    $WORK_DIRECTORY \
-    $DATA_DIRECTORY/toran \
-    $DATA_DIRECTORY/mirrors
+    ${WORK_DIRECTORY} \
+    ${DATA_DIRECTORY}/toran \
+    ${DATA_DIRECTORY}/mirrors

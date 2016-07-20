@@ -3,7 +3,7 @@
 echo "Configure PHP..."
 
 # PHP Configuration
-PHP_TIMEZONE=${PHP_TIMEZONE:-Europe/Paris}
+PHP_TIMEZONE=${PHP_TIMEZONE:-Europe/Moscow}
 
 # Checking PHP Timezone
 if [[ ! "${PHP_TIMEZONE}" =~ ^[A-Z]{1}[a-z]+/[A-Z]{1}[a-z]+$ ]]; then
@@ -13,8 +13,8 @@ if [[ ! "${PHP_TIMEZONE}" =~ ^[A-Z]{1}[a-z]+/[A-Z]{1}[a-z]+$ ]]; then
 fi
 
 # Config PHP Timezone
-sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php5/fpm/php.ini
-sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php5/cli/php.ini
+sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php/7.0/fpm/php.ini
+sed -i "s|;date.timezone =.*|date.timezone = ${PHP_TIMEZONE}|g" /etc/php/7.0/cli/php.ini
 
 mkdir -p /run/php
 
@@ -27,5 +27,5 @@ sed -i "s|;error_log = php_errors.log|error_log = ${DATA_DIRECTORY}/logs/php-cli
 # Loading permissions
 chown -R www-data:www-data \
     /run/php \
-    $DATA_DIRECTORY/logs/php-fpm \
-    $DATA_DIRECTORY/logs/php-cli
+    ${DATA_DIRECTORY}/logs/php-fpm \
+    ${DATA_DIRECTORY}/logs/php-cli
