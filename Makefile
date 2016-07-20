@@ -2,7 +2,7 @@ build:
 	@docker build -t bankiru/toran-proxy:latest .
 
 start:
-	@docker run --name toran-proxy -d -p 80:80 -e "TORAN_CRON_TIMER=minutes" -v /tmp/toran-proxy:/data/toran-proxy bankiru/toran-proxy:latest
+	@docker run --name toran-proxy -d -p 80:80 -e "TORAN_CRON_TIMER=minutes" -v /tmp/toran-proxy:/data bankiru/toran-proxy:latest
 
 logs:
 	@docker logs -f toran-proxy

@@ -22,20 +22,20 @@ This is forked, rewritten and optimized version of [cedvan/docker-toran-proxy](h
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
-    -p 9418:9418 \
+    -p 443:443 \
     bankiru/toran-proxy:latest
 ```
 Go with your browser to **localhost**
 
 ## Save data
 
-Files are saved to `/data/toran-proxy` in container. Just mount this volume for save your configurations and repositories
+Files are saved to `/data` in container. Just mount this volume for save your configurations and repositories
 
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
-    -p 9418:9418 \
-    -v /opt/toran-proxy:/data/toran-proxy \
+    -p 443:443 \
+    -v /opt/toran-proxy:/data \
     bankiru/toran-proxy:latest
 ```
 
@@ -44,7 +44,7 @@ docker run --name toran-proxy -d \
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
-    -p 9418:9418 \
+    -p 443:443 \
     -e "TORAN_HOST=toran.example.com" \
     bankiru/toran-proxy:latest
 ```
@@ -54,8 +54,8 @@ docker run --name toran-proxy -d \
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
-    -p 9418:9418 \
-    -v /opt/toran-proxy/ssh:/data/toran-proxy/ssh \
+    -p 443:443 \
+    -v /opt/toran-proxy/ssh:/data/ssh \
     bankiru/toran-proxy:latest
 ```
 *Files supported : `id_rsa`, `id_rsa.pub`, `config` and `known_hosts`*
@@ -65,19 +65,18 @@ docker run --name toran-proxy -d \
 ```bash
 docker run --name toran-proxy -d \
     -p 80:80 \
-    -p 9418:9418 \
+    -p 443:443 \
     -e "TORAN_CRON_TIMER=half" \
     bankiru/toran-proxy:latest
 ```
 
-## Enabled HTTPS
+## Custom SSL certificate for HTTPS
 
 ```bash
 docker run --name toran-proxy -d \
     -p 443:443 \
-    -p 9418:9418 \
-    -e "TORAN_HTTPS=true" \
-    -v /opt/toran-proxy/certs:/data/toran-proxy/certs \
+    -p 443:443 \
+    -v /opt/toran-proxy/certs:/data/certs \
     bankiru/toran-proxy:latest
 ```
 Add **toran-proxy.key** and **toran-proxy.crt** in folder **certs**
@@ -130,7 +129,6 @@ Add `auth.json` to composer configuration home folder
 Below is the complete list of available options that can be used to customize your toran proxy installation.
 
 - **TORAN_HOST**: The hostname of the toran proxy server. Defaults to `localhost`
-- **TORAN_HTTPS**: Set to `true` to enable https support, Defaults to `false`. **Do not forget to add the certificates files**
 - **TORAN_CRON_TIMER**: Setup cron job timer. Defaults to `fifteen`
     - `minutes`: All minutes
     - `five`: All five minutes
@@ -156,3 +154,4 @@ Toran is built by Jordi Boggiano, lead developer of Composer. As such he can mak
 - https://getcomposer.org/doc/articles/handling-private-packages-with-satis.md
 - https://github.com/jwilder/nginx-proxy
 - https://github.com/cedvan/docker-toran-proxy
+- https://git-scm.com/docs/gitweb

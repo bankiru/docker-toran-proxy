@@ -3,7 +3,7 @@
 start() {
     DATE="$(date)"
     echo ""
-    echo "=========="
+    echo "============"
     echo "$DATE - Starting synchronization..."
 
     # Launch cron
@@ -11,7 +11,7 @@ start() {
 
     DATE="$(date)"
     echo "$DATE - Synchronization finished"
-    echo "=========="
+    echo "============"
 }
 
 case $1 in

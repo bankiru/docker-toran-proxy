@@ -1,5 +1,15 @@
 # Changelog
 
+**1.5.1-1 (latest)**
+- Using gitweb instead of gitdaemon to serve git mirrors
+- Data volume now at /data
+- Only HTTPS supported now
+- If now SSL certificate provided generating self-signed certificate
+
+**1.5.1**
+- Upgrade toran proxy to version 1.5.1
+- Using php 7
+
 **1.4.4 (latest)**
 - Upgrade toran proxy to version 1.4.4
 - image based on ubuntu:trusty
