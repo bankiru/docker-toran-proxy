@@ -11,6 +11,9 @@ if [ ! -e "${DATA_DIRECTORY}/certs/toran-proxy.key" ] && [ ! -e "${DATA_DIRECTOR
     SSL_CERT_SUBJ="/C=SS/ST=SS/L=SelfSignedCity/O=SelfSignedOrg/CN=${TORAN_HOST}"
 
     echo "Generating self-signed HTTPS Certificates..."
+
+    mkdir -p ${DATA_DIRECTORY}/certs
+
     openssl req \
         -x509 \
         -nodes \
@@ -41,14 +44,8 @@ fi
 echo "Loading HTTPS Certificates..."
 
 # Add certificates trusted
-ln -s ${DATA_DIRECTORY}/certs /usr/local/share/ca-certificates/toran-proxy
+mkdir -p /usr/local/share/ca-certificates/toran-proxy
+cp -f ${DATA_DIRECTORY}/certs/* /usr/local/share/ca-certificates/toran-proxy
 update-ca-certificates
 
 ln -s /etc/nginx/sites-available/toran-proxy.conf /etc/nginx/sites-enabled/toran-proxy.conf
-
-# Logs
-mkdir -p ${DATA_DIRECTORY}/logs/nginx
-
-# Loading permissions
-chown -R www-data:www-data \
-    ${DATA_DIRECTORY}/logs/nginx

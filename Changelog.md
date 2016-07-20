@@ -1,7 +1,7 @@
 # Changelog
 
 **1.5.1-1 (latest)**
-- Using gitweb instead gitdaemon to serve git mirrors
+- Using gitweb instead of gitdaemon to serve git mirrors
 - Data volume now at /data
 - Only HTTPS supported now
 - If now SSL certificate provided generating self-signed certificate
