@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/bankiru/docker-toran-proxy/master.svg?style=flat-square)](https://travis-ci.org/bankiru/docker-toran-proxy)
 [![Docker Pulls](https://img.shields.io/docker/pulls/bankiru/toran-proxy.svg?style=flat-square)](https://hub.docker.com/r/bankiru/toran-proxy/)
 [![Docker Stars](https://img.shields.io/docker/stars/bankiru/toran-proxy.svg?style=flat-square)](https://hub.docker.com/r/bankiru/toran-proxy/)
-[![](https://badge.imagelayers.io/bankiru/toran-proxy:latest.svg)](https://imagelayers.io/?images=bankiru/toran-proxy:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/image/bankiru/sinopia.svg)](https://hub.docker.com/r/bankiru/toran-proxy/)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/bankiru/docker-toran-proxy.svg)](http://isitmaintained.com/project/bankiru/docker-toran-proxy "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/bankiru/docker-toran-proxy.svg)](http://isitmaintained.com/project/bankiru/docker-toran-proxy "Percentage of issues still open")
 [![GitHub license](https://img.shields.io/:license-mit-blue.svg?style=flat-square)]()
